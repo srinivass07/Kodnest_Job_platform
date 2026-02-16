@@ -1,0 +1,152 @@
+/* ============================================
+   KODNEST PREMIUM BUILD SYSTEM - SHARED ASSETS
+   Design Philosophy: Calm, Intentional, Coherent, Confident
+   ============================================ */
+
+:root {
+    /* Color System */
+    --color-background: #F7F6F3;
+    --color-text-primary: #111111;
+    --color-accent: #8B0000;
+    --color-success: #4A6741;
+    --color-warning: #B8860B;
+    --color-border: #D4D2CC;
+    --color-surface: #FFFFFF;
+
+    /* Typography */
+    --font-serif: 'Crimson Pro', serif;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Spacing */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 64px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --border-radius: 6px;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    margin: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+}
+
+.hero-section {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.hero-title {
+    font-size: 48px;
+    margin-bottom: var(--space-sm);
+}
+
+.hero-subtitle {
+    font-size: 20px;
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+}
+
+.app-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--space-lg);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent);
+}
+
+.app-icon {
+    font-size: 32px;
+    margin-bottom: var(--space-md);
+    color: var(--color-accent);
+}
+
+.app-title {
+    font-size: 24px;
+    margin-bottom: var(--space-xs);
+}
+
+.app-description {
+    opacity: 0.7;
+    font-size: 16px;
+}
+
+/* Shared Nav Styles */
+.platform-nav {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-sm) var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.platform-brand {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.platform-links {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.platform-link {
+    text-decoration: none;
+    color: var(--color-text-primary);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.platform-link:hover, .platform-link.active {
+    opacity: 1;
+    color: var(--color-accent);
+}
