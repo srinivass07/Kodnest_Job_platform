@@ -1,0 +1,2986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Readiness Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: hsl(245, 58%, 51%);
+            --primary-hover: hsl(245, 58%, 45%);
+            --primary-light: hsl(245, 58%, 95%);
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Landing Page Styles */
+        .landing-page {
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, var(--white), var(--primary-light));
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 24px;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--gray-900);
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+        }
+
+        .features {
+            padding: 64px 24px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .footer {
+            background-color: var(--gray-900);
+            color: var(--gray-600);
+            text-align: center;
+            padding: 32px 24px;
+            margin-top: 80px;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            height: 100vh;
+            background-color: var(--gray-100);
+        }
+
+        .dashboard.active {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 256px;
+            background-color: var(--gray-900);
+            color: var(--white);
+            transition: width 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            display: none;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            color: var(--white);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: var(--primary);
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--white);
+            padding: 16px 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--gray-600);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .card p {
+            color: var(--gray-600);
+            margin-bottom: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--primary-light);
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .stat-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .problem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .problem-item {
+            border: 1px solid var(--gray-200);
+            padding: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .problem-item:hover {
+            border-color: var(--primary);
+        }
+
+        .problem-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .problem-item p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .assessment-card {
+            border: 2px solid var(--primary);
+            padding: 24px;
+            border-radius: 8px;
+        }
+
+        .assessment-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background-color: var(--primary-light);
+            border-radius: 8px;
+        }
+
+        .resource-icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 16px;
+            color: var(--primary);
+        }
+
+        .resource-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .resource-item p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 96px;
+            height: 96px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 700;
+            margin-right: 24px;
+        }
+
+        .profile-info h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .profile-info p {
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Enhanced Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--gray-900);
+        }
+
+        /* Circular Progress */
+        .readiness-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .circular-progress svg {
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle-bg {
+            fill: none;
+            stroke: var(--gray-200);
+            stroke-width: 12;
+        }
+
+        .progress-circle {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 12;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+
+        /* Radar Chart */
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
+
+        .radar-chart {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .radar-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        /* Continue Practice */
+        .practice-topic {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-container {
+            background-color: var(--gray-200);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 20px;
+        }
+
+        /* Weekly Goals */
+        .weekly-progress {
+            margin-bottom: 24px;
+        }
+
+        .weekly-progress h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .day-indicators {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .day-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            border: 2px solid var(--gray-300);
+            color: var(--gray-600);
+        }
+
+        .day-circle.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+
+        /* Upcoming Assessments */
+        .assessment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .assessment-item {
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            background-color: var(--gray-50);
+            border-radius: 4px;
+        }
+
+        .assessment-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .assessment-time {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        /* Interactive Skill Toggles */
+        .skill-tag {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .skill-tag.know {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .skill-tag.practice {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-icon {
+            font-size: 12px;
+        }
+
+        /* Export Buttons */
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background-color: var(--gray-200);
+            color: var(--gray-900);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray-300);
+        }
+
+        /* Action Next Box */
+        .action-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            margin-top: 32px;
+        }
+
+        .action-next h3 {
+            margin: 0 0 16px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .action-next h4 {
+            margin: 16px 0 12px 0;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .action-next ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .action-next li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 15px;
+        }
+
+        .action-next li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            font-size: 20px;
+        }
+
+        .action-next .suggestion {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background-color: var(--gray-900);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Validation Styles */
+        .validation-error {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #991b1b;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .validation-warning {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .char-counter {
+            font-size: 13px;
+            color: var(--gray-600);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .char-counter.warning {
+            color: #f59e0b;
+            font-weight: 500;
+        }
+
+        .char-counter.valid {
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        /* Company Intel Card */
+        .company-intel {
+            background: linear-gradient(135deg, #f6f8fb 0%, #ffffff 100%);
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .company-intel h3 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 18px;
+            color: var(--gray-900);
+        }
+
+        .intel-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .intel-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            min-width: 80px;
+        }
+
+        .intel-value {
+            color: var(--gray-900);
+        }
+
+        .hiring-focus {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .hiring-focus h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .hiring-focus ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .hiring-focus li {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+        }
+
+        .demo-note {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background-color: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            font-size: 12px;
+            color: var(--gray-600);
+            border-radius: 4px;
+        }
+
+        /* Round Mapping Timeline */
+        .round-mapping {
+            background-color: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .round-mapping h3 {
+            font-size: 18px;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+        }
+
+        .round-timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .round-item {
+            position: relative;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+        }
+
+        .round-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+            z-index: 1;
+        }
+
+        .round-item::after {
+            content: '';
+            position: absolute;
+            left: -19px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 16px);
+            background-color: var(--gray-300);
+        }
+
+        .round-item:last-child::after {
+            display: none;
+        }
+
+        .round-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .round-focus {
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .round-why {
+            font-size: 13px;
+            color: var(--gray-600);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 80px;
+            }
+
+            .sidebar-header,
+            .nav-text {
+                display: none;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Test Checklist Styles */
+        .checklist-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .checklist-status {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .checklist-status.warning {
+            color: #d97706;
+        }
+
+        .checklist-status.success {
+            color: #059669;
+        }
+
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--primary);
+            background-color: var(--gray-50);
+        }
+
+        .checklist-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-top: 4px;
+            margin-right: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 2px solid var(--gray-300);
+        }
+
+        .checklist-checkbox:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checklist-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .checklist-content p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .checklist-hint {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--gray-600);
+            background-color: var(--gray-100);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .ship-lock-message {
+            text-align: center;
+            padding: 48px;
+            color: var(--gray-600);
+        }
+
+        .ship-success-message {
+            text-align: center;
+            padding: 48px;
+        }
+
+        .ship-success-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            color: #059669;
+        }
+
+        /* Proof Page Styles */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge.in-progress {
+            background-color: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fcd34d;
+        }
+
+        .status-badge.shipped {
+            background-color: #d1fae5;
+            color: #059669;
+            border: 1px solid #6ee7b7;
+        }
+
+        .proof-section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .proof-section:last-child {
+            border-bottom: none;
+        }
+
+        .proof-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--gray-50);
+            padding: 12px 16px;
+            border-radius: 6px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .step-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .step-status {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .step-status.completed {
+            color: #059669;
+        }
+
+        .step-status.pending {
+            color: #d97706;
+            /* Should not happen if locked correctly */
+        }
+
+        .artifact-input-group {
+            margin-bottom: 16px;
+        }
+
+        .completion-message {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 32px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .completion-message.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .completion-text {
+            font-size: 18px;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page">
+        <section class="hero">
+            <div class="container">
+                <h1>Ace Your Placement</h1>
+                <p>Practice, assess, and prepare for your dream job</p>
+                <button class="btn btn-primary" onclick="showDashboard()">Get Started</button>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <h3>Practice Problems</h3>
+                    <p>Solve coding challenges to sharpen your technical skills</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <h3>Mock Interviews</h3>
+                    <p>Practice with realistic interview scenarios and feedback</p>
+                </div>
+
+                <div class="feature-card">
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                        </path>
+                    </svg>
+                    <h3>Track Progress</h3>
+                    <p>Monitor your improvement with detailed analytics</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>© 2026 Placement Readiness Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">Menu</div>
+            <nav>
+                <a class="nav-item active" onclick="showPage('dashboard-home')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a class="nav-item" onclick="showPage('practice')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <span class="nav-text">Practice</span>
+                </a>
+                <a class="nav-item" onclick="showPage('assessments')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                        </path>
+                    </svg>
+                    <span class="nav-text">Assessments</span>
+                </a>
+                <a class="nav-item" onclick="showPage('resources')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                        </path>
+                    </svg>
+                    <span class="nav-text">Resources</span>
+                </a>
+                <a class="nav-item" onclick="showPage('profile')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a class="nav-item" onclick="showPage('jd-analyzer')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    <span class="nav-text">JD Analyzer</span>
+                </a>
+                <a class="nav-item" onclick="showPage('results')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                        </path>
+                    </svg>
+                    <span class="nav-text">Results</span>
+                </a>
+                <a class="nav-item" onclick="showPage('history')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="nav-text">History</span>
+                </a>
+                <a class="nav-item" onclick="showPage('test-checklist')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="nav-text">Test Checklist</span>
+                </a>
+                <a class="nav-item" onclick="showPage('ship')">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="nav-text">Ship</span>
+                </a>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-btn" onclick="toggleSidebar()">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <h1>Placement Prep</h1>
+                </div>
+                <div class="user-avatar">U</div>
+            </header>
+
+            <div
+                style="background-color: var(--white); border-bottom: 1px solid var(--gray-200); padding: 8px 32px; display: flex; justify-content: flex-end;">
+                <span id="project-status-badge" class="status-badge in-progress">In Progress</span>
+            </div>
+
+            <main class="content">
+                <!-- Dashboard Home -->
+                <div id="dashboard-home" class="page-content active">
+                    <!-- Dashboard Grid -->
+                    <div class="dashboard-grid">
+                        <!-- Overall Readiness -->
+                        <div class="dashboard-card">
+                            <h3>Overall Readiness</h3>
+                            <div class="readiness-container">
+                                <div class="circular-progress">
+                                    <svg width="200" height="200">
+                                        <circle class="progress-circle-bg" cx="100" cy="100" r="90"></circle>
+                                        <circle class="progress-circle" cx="100" cy="100" r="90"
+                                            stroke-dasharray="565.48" stroke-dashoffset="158.73"></circle>
+                                    </svg>
+                                    <div class="progress-text">
+                                        <div class="progress-number">72</div>
+                                        <div class="progress-label">Readiness Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skill Breakdown -->
+                        <div class="dashboard-card">
+                            <h3>Skill Breakdown</h3>
+                            <div class="radar-container">
+                                <div class="radar-chart">
+                                    <svg width="300" height="300" viewBox="0 0 300 300">
+                                        <!-- Pentagon grid -->
+                                        <polygon points="150,30 258,105 228,225 72,225 42,105" fill="none"
+                                            stroke="var(--gray-200)" stroke-width="1"></polygon>
+                                        <polygon points="150,60 234,112.5 213,210 87,210 66,112.5" fill="none"
+                                            stroke="var(--gray-200)" stroke-width="1"></polygon>
+                                        <polygon points="150,90 210,120 198,195 102,195 90,120" fill="none"
+                                            stroke="var(--gray-200)" stroke-width="1"></polygon>
+                                        <polygon points="150,120 186,127.5 183,180 117,180 114,127.5" fill="none"
+                                            stroke="var(--gray-200)" stroke-width="1"></polygon>
+                                        <polygon points="150,150 162,135 168,165 132,165 138,135" fill="none"
+                                            stroke="var(--gray-200)" stroke-width="1"></polygon>
+
+                                        <!-- Axis lines -->
+                                        <line x1="150" y1="150" x2="150" y2="30" stroke="var(--gray-300)"
+                                            stroke-width="1"></line>
+                                        <line x1="150" y1="150" x2="258" y2="105" stroke="var(--gray-300)"
+                                            stroke-width="1"></line>
+                                        <line x1="150" y1="150" x2="228" y2="225" stroke="var(--gray-300)"
+                                            stroke-width="1"></line>
+                                        <line x1="150" y1="150" x2="72" y2="225" stroke="var(--gray-300)"
+                                            stroke-width="1"></line>
+                                        <line x1="150" y1="150" x2="42" y2="105" stroke="var(--gray-300)"
+                                            stroke-width="1"></line>
+
+                                        <!-- Data polygon (DSA:75, SysDesign:60, Comm:80, Resume:85, Aptitude:70) -->
+                                        <polygon points="150,60 234,120 216,207 90,213 54,114" fill="var(--primary)"
+                                            fill-opacity="0.3" stroke="var(--primary)" stroke-width="2"></polygon>
+
+                                        <!-- Data points -->
+                                        <circle cx="150" cy="60" r="4" fill="var(--primary)"></circle>
+                                        <circle cx="234" cy="120" r="4" fill="var(--primary)"></circle>
+                                        <circle cx="216" cy="207" r="4" fill="var(--primary)"></circle>
+                                        <circle cx="90" cy="213" r="4" fill="var(--primary)"></circle>
+                                        <circle cx="54" cy="114" r="4" fill="var(--primary)"></circle>
+                                    </svg>
+                                    <!-- Labels -->
+                                    <div class="radar-label" style="top: 5px; left: 50%; transform: translateX(-50%);">
+                                        DSA (75)</div>
+                                    <div class="radar-label" style="top: 30%; right: -10px;">System Design (60)</div>
+                                    <div class="radar-label" style="bottom: 15px; right: 20px;">Communication (80)</div>
+                                    <div class="radar-label" style="bottom: 15px; left: 0px;">Resume (85)</div>
+                                    <div class="radar-label" style="top: 30%; left: -30px;">Aptitude (70)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Continue Practice -->
+                        <div class="dashboard-card">
+                            <h3>Continue Practice</h3>
+                            <div class="practice-topic">Dynamic Programming</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 30%;"></div>
+                            </div>
+                            <div class="progress-info">
+                                <span>3/10 completed</span>
+                                <span>30%</span>
+                            </div>
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+
+                        <!-- Weekly Goals -->
+                        <div class="dashboard-card">
+                            <h3>Weekly Goals</h3>
+                            <div class="weekly-progress">
+                                <h4>Problems Solved: 12/20 this week</h4>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                            <div class="day-indicators">
+                                <div class="day-circle active">M</div>
+                                <div class="day-circle active">T</div>
+                                <div class="day-circle active">W</div>
+                                <div class="day-circle active">T</div>
+                                <div class="day-circle">F</div>
+                                <div class="day-circle">S</div>
+                                <div class="day-circle">S</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Assessments (Full Width) -->
+                    <div class="dashboard-card">
+                        <h3>Upcoming Assessments</h3>
+                        <div class="assessment-list">
+                            <div class="assessment-item">
+                                <div class="assessment-title">DSA Mock Test</div>
+                                <div class="assessment-time">Tomorrow, 10:00 AM</div>
+                            </div>
+                            <div class="assessment-item">
+                                <div class="assessment-title">System Design Review</div>
+                                <div class="assessment-time">Wed, 2:00 PM</div>
+                            </div>
+                            <div class="assessment-item">
+                                <div class="assessment-title">HR Interview Prep</div>
+                                <div class="assessment-time">Friday, 11:00 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Page -->
+                <div id="practice" class="page-content">
+                    <div class="card">
+                        <h2>Practice Problems</h2>
+                        <p>Sharpen your coding skills with curated problems</p>
+                        <div class="problem-list">
+                            <div class="problem-item">
+                                <h3>Two Sum Problem</h3>
+                                <p>Difficulty: Easy</p>
+                            </div>
+                            <div class="problem-item">
+                                <h3>Binary Tree Traversal</h3>
+                                <p>Difficulty: Medium</p>
+                            </div>
+                            <div class="problem-item">
+                                <h3>Dynamic Programming Challenge</h3>
+                                <p>Difficulty: Hard</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assessments Page -->
+                <div id="assessments" class="page-content">
+                    <div class="card">
+                        <h2>Assessments</h2>
+                        <p>Test your knowledge with timed assessments</p>
+                        <div class="assessment-grid">
+                            <div class="assessment-card">
+                                <h3>Data Structures Assessment</h3>
+                                <p>Duration: 60 minutes</p>
+                                <button class="btn btn-primary" style="margin-top: 16px;">Start Assessment</button>
+                            </div>
+                            <div class="assessment-card">
+                                <h3>Algorithms Assessment</h3>
+                                <p>Duration: 90 minutes</p>
+                                <button class="btn btn-primary" style="margin-top: 16px;">Start Assessment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources Page -->
+                <div id="resources" class="page-content">
+                    <div class="card">
+                        <h2>Resources</h2>
+                        <p>Study materials and learning resources</p>
+                        <div class="resource-list">
+                            <div class="resource-item">
+                                <svg class="resource-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h3>Interview Preparation Guide</h3>
+                                    <p>Complete guide for technical interviews</p>
+                                </div>
+                            </div>
+                            <div class="resource-item">
+                                <svg class="resource-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h3>Resume Templates</h3>
+                                    <p>Professional resume formats</p>
+                                </div>
+                            </div>
+                            <div class="resource-item">
+                                <svg class="resource-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <div>
+                                    <h3>Video Tutorials</h3>
+                                    <p>Learn from expert instructors</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Page -->
+                <div id="profile" class="page-content">
+                    <div class="card">
+                        <h2>Profile</h2>
+                        <div class="profile-header">
+                            <div class="profile-avatar">U</div>
+                            <div class="profile-info">
+                                <h3>User Name</h3>
+                                <p>user@example.com</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Company</label>
+                            <input type="text" class="form-input" placeholder="Enter target company">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JD Analyzer Page -->
+                <div id="jd-analyzer" class="page-content">
+                    <div class="card">
+                        <h2>JD Analyzer</h2>
+                        <p>Analyze job descriptions to get personalized preparation insights</p>
+                        <form id="jd-form" onsubmit="analyzeJD(event)">
+                            <div class="form-group">
+                                <label class="form-label">Company Name (Optional)</label>
+                                <input type="text" id="company-input" class="form-input"
+                                    placeholder="e.g., Google, Microsoft">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Role/Position (Optional)</label>
+                                <input type="text" id="role-input" class="form-input"
+                                    placeholder="e.g., Software Engineer, Data Analyst">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Job Description *</label>
+                                <div id="jd-error" class="validation-error" style="display: none;">
+                                    ❌ Job description is required to analyze.
+                                </div>
+                                <div id="jd-warning" class="validation-warning" style="display: none;">
+                                    ⚠️ This JD is too short to analyze deeply. Paste full JD for better output.
+                                </div>
+                                <textarea id="jd-input" class="form-input" rows="10"
+                                    placeholder="Paste the job description here..." required
+                                    style="resize: vertical; min-height: 200px;"
+                                    oninput="updateCharCounter()"></textarea>
+                                <div class="char-counter" id="char-counter">
+                                    <span id="char-count">0</span> / 200 characters (minimum recommended)
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Analyze JD</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Page -->
+                <div id="results" class="page-content">
+                    <div id="results-content">
+                        <div class="card" style="text-align: center; padding: 60px 32px;">
+                            <h2>No Analysis Yet</h2>
+                            <p>Analyze a job description to see results here</p>
+                            <button class="btn btn-primary" onclick="showPage('jd-analyzer')"
+                                style="margin-top: 20px;">Analyze JD</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Page -->
+                <div id="history" class="page-content">
+                    <div class="card">
+                        <h2>Analysis History</h2>
+                        <p>View your past JD analyses</p>
+                        <div id="history-list">
+                            <p style="text-align: center; padding: 40px 0; color: var(--gray-600);">No history yet.
+                                Analyze a JD to get started!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Test Checklist Page -->
+                <div id="test-checklist" class="page-content">
+                    <div class="card">
+                        <h2>Test Checklist</h2>
+                        <p>Verify all functionality before shipping</p>
+
+                        <div class="checklist-container">
+                            <div class="checklist-header">
+                                <div id="checklist-summary" class="checklist-status warning">
+                                    Tests Passed: 0 / 10
+                                </div>
+                                <button class="btn btn-secondary" onclick="resetChecklist()"
+                                    style="font-size: 14px; padding: 8px 16px;">
+                                    Reset checklist
+                                </button>
+                            </div>
+
+                            <div id="checklist-warning" class="validation-warning" style="margin-bottom: 24px;">
+                                ⚠️ Fix issues before shipping.
+                            </div>
+
+                            <div class="checklist-items" id="checklist-items-container">
+                                <!-- Items will be injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ship Page (Proof & Submission) -->
+                <div id="ship" class="page-content">
+                    <div class="card">
+                        <h2>Proof & Submission</h2>
+                        <p>Complete these steps to mark your project as Shipped.</p>
+
+                        <!-- Section A: Step Completion Overview -->
+                        <div class="proof-section">
+                            <h3>A) Development Steps</h3>
+                            <div class="step-list">
+                                <div class="step-item"><span class="step-name">1. Project Setup</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">2. Design System</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">3. Dashboard Layout</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">4. JD Analyzer (Regex)</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">5. Score Logic</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">6. History System</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">7. Test Checklist</span><span
+                                        class="step-status completed">Completed</span></div>
+                                <div class="step-item"><span class="step-name">8. Ship Gate</span><span
+                                        class="step-status completed">Completed</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Section B: Artifact Inputs -->
+                        <div class="proof-section">
+                            <h3>B) Required Artifacts</h3>
+                            <div class="artifact-input-group">
+                                <label class="form-label">Lovable Project Link *</label>
+                                <input type="url" id="link-lovable" class="form-input"
+                                    placeholder="https://lovable.dev/..." oninput="validateProofLinks()">
+                            </div>
+                            <div class="artifact-input-group">
+                                <label class="form-label">GitHub Repository Link *</label>
+                                <input type="url" id="link-github" class="form-input"
+                                    placeholder="https://github.com/..." oninput="validateProofLinks()">
+                            </div>
+                            <div class="artifact-input-group">
+                                <label class="form-label">Deployed URL *</label>
+                                <input type="url" id="link-deploy" class="form-input" placeholder="https://..."
+                                    oninput="validateProofLinks()">
+                            </div>
+                        </div>
+
+                        <!-- Section C: Submission -->
+                        <div class="proof-section">
+                            <h3>C) Final Submission</h3>
+                            <p style="font-size: 14px; color: var(--gray-600); margin-bottom: 16px;">
+                                Only enabled when all checkist items are passed and all links are valid.
+                            </p>
+                            <button id="btn-copy-submission" class="btn btn-primary" onclick="copySubmission()" disabled
+                                style="opacity: 0.5; cursor: not-allowed;">
+                                Copy Final Submission
+                            </button>
+                        </div>
+
+                        <!-- Section D: Completion Message -->
+                        <div id="completion-message" class="completion-message">
+                            <div class="ship-success-icon" style="color: #6ee7b7;">🚀</div>
+                            <div class="completion-title">You built a real product.</div>
+                            <div class="completion-text">
+                                Not a tutorial. Not a clone.<br>
+                                A structured tool that solves a real problem.<br><br>
+                                This is your proof of work.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // ===== NAVIGATION =====
+        function showDashboard() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('dashboard').classList.add('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+            event.target.closest('.nav-item').classList.add('active');
+
+            // Load history if navigating to history page
+            if (pageId === 'history') {
+                loadHistory();
+            }
+
+            // Load latest results if navigating to results page
+            if (pageId === 'results') {
+                const latest = JSON.parse(localStorage.getItem('latestAnalysis') || 'null');
+                if (latest) {
+                    displayResults(latest);
+                }
+            }
+
+            // Route guard for Ship page
+            if (pageId === 'ship') {
+                if (!checkShipGuard()) {
+                    showToast('⚠️ Complete the checklist before shipping!');
+                    // Revert active class changes
+                    document.getElementById('ship').classList.remove('active');
+                    event.target.closest('.nav-item').classList.remove('active');
+
+                    // Go back to previous page or stay on current
+                    // Simple fallback: go to checklist
+                    showPage('test-checklist');
+                    return;
+                }
+                // Load saved links if visiting ship page
+                loadProofLinks();
+                validateProofLinks(); // Check status on load
+            }
+
+            if (pageId === 'test-checklist') {
+                renderChecklist();
+            }
+        }
+
+        // ===== PROOF & SUBMISSION LOGIC =====
+        function loadProofLinks() {
+            const links = JSON.parse(localStorage.getItem('prp_final_submission') || '{}');
+            document.getElementById('link-lovable').value = links.lovable || '';
+            document.getElementById('link-github').value = links.github || '';
+            document.getElementById('link-deploy').value = links.deploy || '';
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function validateProofLinks() {
+            const lovable = document.getElementById('link-lovable').value.trim();
+            const github = document.getElementById('link-github').value.trim();
+            const deploy = document.getElementById('link-deploy').value.trim();
+
+            const isLovableValid = isValidUrl(lovable);
+            const isGithubValid = isValidUrl(github);
+            const isDeployValid = isValidUrl(deploy);
+
+            // Save to local storage
+            localStorage.setItem('prp_final_submission', JSON.stringify({
+                lovable, github, deploy
+            }));
+
+            // Check if all proof conditions are met
+            // 1. Checklist must be complete (already checked by route guard, but double check)
+            const isChecklistComplete = checkShipGuard();
+
+            // 2. All links must be valid
+            const areLinksValid = isLovableValid && isGithubValid && isDeployValid;
+
+            const isShippable = isChecklistComplete && areLinksValid;
+
+            // Update UI
+            const btnCopy = document.getElementById('btn-copy-submission');
+            const statusBadge = document.getElementById('project-status-badge');
+            const completionMsg = document.getElementById('completion-message');
+
+            if (isShippable) {
+                btnCopy.disabled = false;
+                btnCopy.style.opacity = '1';
+                btnCopy.style.cursor = 'pointer';
+
+                statusBadge.textContent = 'Shipped';
+                statusBadge.className = 'status-badge shipped';
+
+                completionMsg.classList.add('visible');
+            } else {
+                btnCopy.disabled = true;
+                btnCopy.style.opacity = '0.5';
+                btnCopy.style.cursor = 'not-allowed';
+
+                statusBadge.textContent = 'In Progress';
+                statusBadge.className = 'status-badge in-progress';
+
+                completionMsg.classList.remove('visible');
+            }
+        }
+
+        function copySubmission() {
+            const links = JSON.parse(localStorage.getItem('prp_final_submission') || '{}');
+
+            const text = `------------------------------------------
+Placement Readiness Platform — Final Submission
+
+Lovable Project: ${links.lovable}
+GitHub Repository: ${links.github}
+Live Deployment: ${links.deploy}
+
+Core Capabilities:
+- JD skill extraction (deterministic)
+- Round mapping engine
+- 7-day prep plan
+- Interactive readiness scoring
+- History persistence
+------------------------------------------`;
+
+            copyToClipboard(text);
+        }
+
+        // ===== TEST CHECKLIST LOGIC =====
+        const checklistItems = [
+            { id: 'jd-validation', text: 'JD required validation works', hint: 'Try analyzing without JD text' },
+            { id: 'short-jd-warning', text: 'Short JD warning shows for <200 chars', hint: 'Enter 100 chars and check warning' },
+            { id: 'skills-extraction', text: 'Skills extraction groups correctly', hint: 'Check if React goes to Web, Python to Languages' },
+            { id: 'round-mapping', text: 'Round mapping changes based on company + skills', hint: 'Compare Startup vs Enterprise results' },
+            { id: 'score-calc', text: 'Score calculation is deterministic', hint: 'Same JD should yield same score' },
+            { id: 'skill-toggles', text: 'Skill toggles update score live', hint: 'Click skills and watch arc change' },
+            { id: 'persistence', text: 'Changes persist after refresh', hint: 'Refresh page and check if score/skills persist' },
+            { id: 'history-save', text: 'History saves and loads correctly', hint: 'Check History tab after analysis' },
+            { id: 'export-buttons', text: 'Export buttons copy the correct content', hint: 'Test all 3 copy buttons' },
+            { id: 'no-console-errors', text: 'No console errors on core pages', hint: 'Check DevTools Console' }
+        ];
+
+        function loadChecklistState() {
+            return JSON.parse(localStorage.getItem('prp-test-checklist') || '{}');
+        }
+
+        function saveChecklistState(state) {
+            localStorage.setItem('prp-test-checklist', JSON.stringify(state));
+        }
+
+        function toggleChecklistItem(id) {
+            const state = loadChecklistState();
+            state[id] = !state[id];
+            saveChecklistState(state);
+            renderChecklist();
+        }
+
+        function checkShipGuard() {
+            const state = loadChecklistState();
+            return checklistItems.every(item => state[item.id] === true);
+        }
+
+        function resetChecklist() {
+            if (confirm('Reset all checklist items?')) {
+                localStorage.removeItem('prp-test-checklist');
+                renderChecklist();
+                showToast('Checklist reset');
+            }
+        }
+
+        function renderChecklist() {
+            const container = document.getElementById('checklist-items-container');
+            const state = loadChecklistState();
+            let passedCount = 0;
+
+            container.innerHTML = checklistItems.map(item => {
+                const isChecked = state[item.id] === true;
+                if (isChecked) passedCount++;
+
+                return `
+                    <div class="checklist-item" onclick="toggleChecklistItem('${item.id}')" style="cursor: pointer;">
+                        <input type="checkbox" class="checklist-checkbox" ${isChecked ? 'checked' : ''} readonly>
+                        <div class="checklist-content">
+                            <h4>${item.text}</h4>
+                            ${item.hint ? `<span class="checklist-hint">💡 ${item.hint}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Summary
+            const summaryEl = document.getElementById('checklist-summary');
+            const warningEl = document.getElementById('checklist-warning');
+
+            summaryEl.textContent = `Tests Passed: ${passedCount} / ${checklistItems.length}`;
+
+            if (passedCount === checklistItems.length) {
+                summaryEl.classList.remove('warning');
+                summaryEl.classList.add('success');
+                warningEl.style.display = 'none';
+            } else {
+                summaryEl.classList.remove('success');
+                summaryEl.classList.add('warning');
+                warningEl.style.display = 'flex';
+                warningEl.textContent = `⚠️ Fix issues before shipping. (${checklistItems.length - passedCount} remaining)`;
+            }
+        }
+
+        // ===== INPUT VALIDATION =====
+        function updateCharCounter() {
+            const jdInput = document.getElementById('jd-input');
+            const charCount = document.getElementById('char-count');
+            const charCounter = document.getElementById('char-counter');
+            const jdWarning = document.getElementById('jd-warning');
+
+            const length = jdInput.value.length;
+            charCount.textContent = length;
+
+            // Update counter color
+            charCounter.classList.remove('warning', 'valid');
+            if (length < 200 && length > 0) {
+                charCounter.classList.add('warning');
+            } else if (length >= 200) {
+                charCounter.classList.add('valid');
+            }
+
+            // Hide warning when typing
+            if (length >= 200) {
+                jdWarning.style.display = 'none';
+            }
+        }
+
+        function validateJDInput(jdText) {
+            const jdError = document.getElementById('jd-error');
+            const jdWarning = document.getElementById('jd-warning');
+
+            // Hide both messages initially
+            jdError.style.display = 'none';
+            jdWarning.style.display = 'none';
+
+            // Check if empty
+            if (!jdText || jdText.trim().length === 0) {
+                jdError.style.display = 'flex';
+                return false;
+            }
+
+            // Check if too short (warning only, allow proceed)
+            if (jdText.length < 200) {
+                jdWarning.textContent = "This JD is too short to analyze deeply. Paste full JD for better output.";
+                jdWarning.style.display = 'flex';
+                // Still return true to allow submission
+            }
+
+            return true;
+        }
+
+        // ===== SKILL EXTRACTION =====
+        const skillCategories = {
+            'Core CS': ['DSA', 'OOP', 'DBMS', 'OS', 'Networks', 'Data Structures', 'Algorithms'],
+            'Languages': ['Java', 'Python', 'JavaScript', 'TypeScript', 'C++', 'C#', 'Go', 'C ', 'Rust', 'Kotlin', 'Swift'],
+            'Web': ['React', 'Next.js', 'Node.js', 'Express', 'REST', 'GraphQL', 'Angular', 'Vue', 'HTML', 'CSS'],
+            'Data': ['SQL', 'MongoDB', 'PostgreSQL', 'MySQL', 'Redis', 'NoSQL', 'Database'],
+            'Cloud/DevOps': ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'CI/CD', 'Linux', 'Jenkins', 'Git'],
+            'Testing': ['Selenium', 'Cypress', 'Playwright', 'JUnit', 'PyTest', 'Jest', 'Testing']
+        };
+
+        function extractSkills(jdText) {
+            const extracted = {};
+            const jdLower = jdText.toLowerCase();
+
+            for (const [category, skills] of Object.entries(skillCategories)) {
+                const found = skills.filter(skill => {
+                    const skillLower = skill.toLowerCase();
+                    return jdLower.includes(skillLower);
+                });
+
+                if (found.length > 0) {
+                    extracted[category] = found;
+                }
+            }
+
+            return extracted;
+        }
+
+        // ===== READINESS SCORE =====
+        function calculateReadiness(company, role, jdText, extractedSkills) {
+            let score = 35;
+
+            const categoryCount = Object.keys(extractedSkills).length;
+            score += Math.min(categoryCount * 5, 30);
+
+            if (company && company.trim()) score += 10;
+            if (role && role.trim()) score += 10;
+            if (jdText.length > 800) score += 10;
+
+            return Math.min(score, 100);
+        }
+
+        // ===== SCHEMA NORMALIZATION =====
+        function handleEmptySkills(extractedSkills) {
+            const hasSkills = Object.values(extractedSkills)
+                .some(arr => arr && arr.length > 0);
+
+            if (!hasSkills) {
+                extractedSkills["Other"] = [
+                    "Communication",
+                    "Problem solving",
+                    "Basic coding",
+                    "Projects"
+                ];
+            }
+
+            return extractedSkills;
+        }
+
+        function normalizeSkills(skills) {
+            const normalized = {
+                "Core CS": [],
+                "Languages": [],
+                "Web": [],
+                "Data": [],
+                "Cloud/DevOps": [],
+                "Testing": [],
+                "Other": []
+            };
+
+            if (!skills) return normalized;
+
+            // Copy existing skills
+            for (const [category, skillList] of Object.entries(skills)) {
+                if (normalized.hasOwnProperty(category)) {
+                    normalized[category] = Array.isArray(skillList) ? skillList : [];
+                } else {
+                    // Unknown categories go to "Other"
+                    normalized["Other"] = normalized["Other"].concat(Array.isArray(skillList) ? skillList : []);
+                }
+            }
+
+            return normalized;
+        }
+
+        function validateAndNormalizeEntry(entry) {
+            const now = new Date().toISOString();
+
+            // Fix plan structure if it's the old object format
+            let plan7Days = Array.isArray(entry.plan7Days || entry.plan) ? (entry.plan7Days || entry.plan) : [];
+            if (!Array.isArray(plan7Days) && typeof (entry.plan || entry.plan7Days) === 'object') {
+                // Convert old object format to new array format
+                const oldPlan = entry.plan || entry.plan7Days;
+                plan7Days = Object.entries(oldPlan).map(([key, tasks]) => {
+                    const parts = key.split(':');
+                    return {
+                        day: parts[0] ? parts[0].trim() : key,
+                        focus: parts[1] ? parts[1].trim() : '',
+                        tasks: Array.isArray(tasks) ? tasks : []
+                    };
+                });
+            }
+
+            // Fix checklist structure if it's the old object format
+            let checklist = Array.isArray(entry.checklist) ? entry.checklist : [];
+            if (!Array.isArray(checklist) && typeof entry.checklist === 'object') {
+                // Convert old object format to new array format
+                checklist = Object.entries(entry.checklist).map(([roundTitle, items]) => ({
+                    roundTitle,
+                    items: Array.isArray(items) ? items : []
+                }));
+            }
+
+            return {
+                id: entry.id || Date.now(),
+                createdAt: entry.createdAt || entry.timestamp || now,
+                updatedAt: entry.updatedAt || entry.createdAt || entry.timestamp || now,
+                company: entry.company || "",
+                role: entry.role || "",
+                jdText: entry.jdText || "",
+                extractedSkills: normalizeSkills(entry.extractedSkills),
+                // Keep companyIntel for display but strict schema implies we ensure required fields
+                companyIntel: entry.companyIntel || {
+                    size: "Startup (<200)",
+                    industry: "Technology Services",
+                    hiringFocus: []
+                },
+                roundMapping: Array.isArray(entry.roundMapping) ? entry.roundMapping : [],
+                checklist: checklist,
+                plan7Days: plan7Days,
+                questions: Array.isArray(entry.questions) ? entry.questions : [],
+                baseScore: typeof entry.baseScore === 'number' ? entry.baseScore : (entry.readinessScore || 0),
+                skillConfidenceMap: entry.skillConfidenceMap || {},
+                finalScore: typeof entry.finalScore === 'number' ? entry.finalScore : (entry.adjustedReadinessScore || entry.readinessScore || 0)
+            };
+        }
+
+        // ===== CONTENT GENERATORS =====
+        // Company Intelligence Functions
+        const enterpriseCompanies = [
+            'amazon', 'google', 'microsoft', 'meta', 'apple', 'facebook',
+            'infosys', 'tcs', 'wipro', 'cognizant', 'accenture', 'capgemini',
+            'ibm', 'oracle', 'sap', 'adobe', 'salesforce', 'intel', 'nvidia',
+            'goldman sachs', 'jp morgan', 'morgan stanley', 'citi', 'hsbc',
+            'uber', 'airbnb', 'netflix', 'linkedin', 'twitter', 'spotify',
+            'deloitte', 'pwc', 'ey', 'kpmg', 'mckinsey', 'bain', 'bcg'
+        ];
+
+        function detectCompanySize(companyName) {
+            if (!companyName) return 'Startup (<200)';
+
+            const normalized = companyName.toLowerCase().trim();
+
+            // Check against known enterprise list
+            const isEnterprise = enterpriseCompanies.some(e =>
+                normalized.includes(e) || e.includes(normalized)
+            );
+
+            return isEnterprise ? 'Enterprise (2000+)' : 'Startup (<200)';
+        }
+
+        function detectIndustry(companyName, jdText) {
+            const text = ((companyName || '') + ' ' + (jdText || '')).toLowerCase();
+
+            if (text.match(/bank|finance|trading|investment|capital|wealth/)) {
+                return 'Financial Services';
+            }
+            if (text.match(/health|medical|pharma|hospital|clinic/)) {
+                return 'Healthcare';
+            }
+            if (text.match(/retail|ecommerce|shop|commerce|marketplace/)) {
+                return 'E-commerce/Retail';
+            }
+            if (text.match(/consult|advisory|strategy/)) {
+                return 'Consulting';
+            }
+            if (text.match(/media|entertainment|streaming|content/)) {
+                return 'Media & Entertainment';
+            }
+
+            return 'Technology Services'; // Default
+        }
+
+        function generateHiringFocus(companySize, skills) {
+            const isEnterprise = companySize.includes('Enterprise');
+
+            if (isEnterprise) {
+                return [
+                    'Structured DSA + algorithms',
+                    'Strong core CS fundamentals',
+                    'System design at scale',
+                    'Behavioral competencies (STAR format)'
+                ];
+            } else {
+                return [
+                    'Practical problem solving',
+                    'Hands-on coding ability',
+                    'Stack depth and breadth',
+                    'Startup mindset and adaptability'
+                ];
+            }
+        }
+
+        function generateRoundMapping(companySize, skills) {
+            const isEnterprise = companySize.includes('Enterprise');
+            const hasDSA = skills['Core CS']?.some(s => s.toLowerCase().includes('dsa'));
+            const hasWeb = skills['Web']?.length > 0;
+            const hasCloud = skills['Cloud/DevOps']?.length > 0;
+
+            if (isEnterprise && hasDSA) {
+                // Enterprise + DSA pattern
+                return [
+                    {
+                        name: 'Round 1: Online Test',
+                        focus: 'DSA + Aptitude',
+                        why: 'Filters candidates at scale. Tests problem-solving speed and accuracy under time pressure.'
+                    },
+                    {
+                        name: 'Round 2: Technical Interview',
+                        focus: 'DSA + Core CS Fundamentals',
+                        why: 'Deep dive into algorithms, data structures, and computer science theory. Assesses depth of knowledge.'
+                    },
+                    {
+                        name: 'Round 3: Tech + Projects',
+                        focus: 'System Design + Experience',
+                        why: 'Evaluates real-world problem solving, scalability thinking, and ability to discuss past projects.'
+                    },
+                    {
+                        name: 'Round 4: HR/Behavioral',
+                        focus: 'Culture Fit + Negotiation',
+                        why: 'Assesses soft skills, team dynamics, leadership potential, and finalizes compensation.'
+                    }
+                ];
+            } else if (!isEnterprise && hasWeb) {
+                // Startup + Web stack pattern
+                return [
+                    {
+                        name: 'Round 1: Practical Coding',
+                        focus: 'Build a feature with your stack',
+                        why: 'Tests hands-on ability to ship working code quickly. Startups value execution speed.'
+                    },
+                    {
+                        name: 'Round 2: System Discussion',
+                        focus: 'Architecture + Trade-offs',
+                        why: 'Evaluates understanding of real-world constraints, technical decisions, and scalability.'
+                    },
+                    {
+                        name: 'Round 3: Culture Fit',
+                        focus: 'Team Dynamics + Vision Alignment',
+                        why: 'Ensures you thrive in fast-paced startup environment and align with company mission.'
+                    }
+                ];
+            } else {
+                // General pattern
+                return [
+                    {
+                        name: 'Round 1: Screening',
+                        focus: 'Technical Basics + Background',
+                        why: 'Initial assessment of technical knowledge and communication skills.'
+                    },
+                    {
+                        name: 'Round 2: Technical Deep Dive',
+                        focus: 'Problem Solving + Coding',
+                        why: 'Evaluates core technical abilities and approach to solving problems.'
+                    },
+                    {
+                        name: 'Round 3: Final Interview',
+                        focus: 'Culture + Offer Discussion',
+                        why: 'Ensures mutual fit and discusses role expectations and compensation.'
+                    }
+                ];
+            }
+        }
+
+        function generateChecklist(skills) {
+            // Internal helper to build the structure
+            const checklistMap = {
+                'Round 1: Aptitude / Basics': [
+                    'Practice quantitative aptitude questions',
+                    'Brush up on logical reasoning',
+                    'Review basic mathematics and probability',
+                    'Practice verbal ability and comprehension',
+                    'Take mock aptitude tests'
+                ],
+                'Round 2: DSA + Core CS': []
+            };
+
+            if (skills['Core CS']) {
+                checklistMap['Round 2: DSA + Core CS'].push('Master data structures (Arrays, LinkedLists, Trees, Graphs)');
+                checklistMap['Round 2: DSA + Core CS'].push('Practice sorting and searching algorithms');
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('oop'))) {
+                    checklistMap['Round 2: DSA + Core CS'].push('Review OOP concepts and design patterns');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('dbms'))) {
+                    checklistMap['Round 2: DSA + Core CS'].push('Study DBMS concepts and normalization');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('os'))) {
+                    checklistMap['Round 2: DSA + Core CS'].push('Understand OS concepts (processes, threads, memory)');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('network'))) {
+                    checklistMap['Round 2: DSA + Core CS'].push('Learn networking fundamentals (TCP/IP, HTTP)');
+                }
+            } else {
+                checklistMap['Round 2: DSA + Core CS'] = [
+                    'Master basic data structures',
+                    'Practice common algorithms',
+                    'Review core CS fundamentals',
+                    'Solve coding problems on LeetCode/HackerRank'
+                ];
+            }
+
+            checklistMap['Round 3: Tech Interview (Projects + Stack)'] = [];
+            if (skills['Languages']) {
+                checklistMap['Round 3: Tech Interview (Projects + Stack)'].push(`Master ${skills['Languages'].slice(0, 2).join(' and ')}`);
+            }
+            if (skills['Web']) {
+                checklistMap['Round 3: Tech Interview (Projects + Stack)'].push(`Build projects using ${skills['Web'].slice(0, 2).join(' and ')}`);
+            }
+            if (skills['Data']) {
+                checklistMap['Round 3: Tech Interview (Projects + Stack)'].push(`Practice database queries and design`);
+            }
+            if (skills['Cloud/DevOps']) {
+                checklistMap['Round 3: Tech Interview (Projects + Stack)'].push(`Learn ${skills['Cloud/DevOps'].slice(0, 2).join(' and ')} basics`);
+            }
+            checklistMap['Round 3: Tech Interview (Projects + Stack)'].push('Prepare to explain your projects in detail');
+            checklistMap['Round 3: Tech Interview (Projects + Stack)'].push('Practice system design basics');
+            checklistMap['Round 3: Tech Interview (Projects + Stack)'].push('Review your resume thoroughly');
+
+            checklistMap['Round 4: Managerial / HR'] = [
+                'Prepare STAR format answers for behavioral questions',
+                'Research the company culture and values',
+                'Practice "Tell me about yourself"',
+                'Prepare questions to ask the interviewer',
+                'Review your strengths and weaknesses',
+                'Practice salary negotiation strategies'
+            ];
+
+            if (skills['Other']) {
+                checklistMap['Round 4: Managerial / HR'].push('Prepare for situational questions (projects, conflicts, etc.)');
+                checklistMap['Round 4: Managerial / HR'].push('Practice explaining technical concepts to non-tech stakeholders');
+            }
+
+            // Convert to Array format
+            return Object.entries(checklistMap).map(([roundTitle, items]) => ({
+                roundTitle,
+                items
+            }));
+        }
+
+        function generate7DayPlan(skills) {
+            const planMap = {
+                'Day 1-2: Basics + Core CS': [
+                    'Review fundamental CS concepts',
+                    'Practice basic coding problems'
+                ],
+                'Day 3-4: DSA + Coding Practice': [
+                    'Solve 10-15 DSA problems daily',
+                    'Focus on arrays, strings, and hashmaps'
+                ],
+                'Day 5: Projects + Resume': [
+                    'Update resume with relevant projects',
+                    'Prepare project explanations'
+                ],
+                'Day 6: Mock Interviews': [
+                    'Practice with peers or online platforms',
+                    'Record and review your responses'
+                ],
+                'Day 7: Revision + Weak Areas': [
+                    'Review notes and key concepts',
+                    'Focus on identified weak areas'
+                ]
+            };
+
+            if (skills['Core CS']) {
+                planMap['Day 1-2: Basics + Core CS'].push('Deep dive into OOP, DBMS, OS, Networks');
+            }
+            if (skills['Web']) {
+                planMap['Day 3-4: DSA + Coding Practice'].push(`Practice ${skills['Web'].slice(0, 2).join(' and ')} concepts`);
+            }
+            if (skills['Data']) {
+                planMap['Day 5: Projects + Resume'].push('Practice SQL queries and database design');
+            }
+            if (skills['Cloud/DevOps']) {
+                planMap['Day 5: Projects + Resume'].push(`Learn ${skills['Cloud/DevOps'][0]} basics`);
+            }
+            if (skills['Other']) {
+                planMap['Day 6: Mock Interviews'].push('Focus on communication and behavioral questions');
+                planMap['Day 6: Mock Interviews'].push('Practice explaining your past projects clearly');
+            }
+
+            // Convert to Array format
+            return Object.entries(planMap).map(([key, tasks]) => {
+                const parts = key.split(':');
+                return {
+                    day: parts[0] ? parts[0].trim() : key,
+                    focus: parts[1] ? parts[1].trim() : '',
+                    tasks: tasks
+                };
+            });
+        }
+
+        function generateQuestions(skills) {
+            const questions = [];
+
+            if (skills['Core CS']) {
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('dsa'))) {
+                    questions.push('How would you optimize search in sorted data?');
+                    questions.push('Explain the difference between BFS and DFS');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('oop'))) {
+                    questions.push('Explain polymorphism with a real-world example');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('dbms'))) {
+                    questions.push('Explain indexing and when it helps performance');
+                }
+                if (skills['Core CS'].some(s => s.toLowerCase().includes('os'))) {
+                    questions.push('What is the difference between process and thread?');
+                }
+            }
+
+            if (skills['Languages']) {
+                questions.push(`What are the key features of ${skills['Languages'][0]}?`);
+            }
+
+            if (skills['Web']) {
+                if (skills['Web'].some(s => s.toLowerCase().includes('react'))) {
+                    questions.push('Explain state management options in React');
+                    questions.push('What are React hooks and why use them?');
+                }
+                if (skills['Web'].some(s => s.toLowerCase().includes('node'))) {
+                    questions.push('How does Node.js handle asynchronous operations?');
+                }
+                if (skills['Web'].some(s => s.toLowerCase().includes('rest'))) {
+                    questions.push('What are RESTful API best practices?');
+                }
+            }
+
+            if (skills['Data']) {
+                questions.push('Explain ACID properties in databases');
+                questions.push('When would you use NoSQL over SQL?');
+            }
+
+            if (skills['Cloud/DevOps']) {
+                questions.push('Explain the benefits of containerization');
+                questions.push('What is CI/CD and why is it important?');
+            }
+
+            // Handle "Other" category (soft skills, generic questions)
+            if (skills['Other']) {
+                questions.push('Describe a challenging project you worked on');
+                questions.push('How do you approach learning new technologies?');
+                questions.push('Explain a time you debugged a complex issue');
+                questions.push('How do you handle tight deadlines?');
+            }
+
+            // Fill remaining with general questions
+            const general = [
+                'Describe a challenging project you worked on',
+                'How do you handle tight deadlines?',
+                'Explain a time you debugged a complex issue',
+                'What is your approach to learning new technologies?',
+                'How do you ensure code quality?'
+            ];
+
+            while (questions.length < 10) {
+                questions.push(general[questions.length % general.length]);
+            }
+
+            return questions.slice(0, 10);
+        }
+
+        // ===== ANALYZE JD =====
+        function analyzeJD(event) {
+            event.preventDefault();
+
+            const company = document.getElementById('company-input').value.trim();
+            const role = document.getElementById('role-input').value.trim();
+            const jdText = document.getElementById('jd-input').value;
+
+            // Validate JD input
+            if (!validateJDInput(jdText)) {
+                return; // Stop if validation fails
+            }
+
+            // Extract skills
+            let extractedSkills = extractSkills(jdText);
+
+            // Handle empty skills
+            extractedSkills = handleEmptySkills(extractedSkills);
+
+            // Normalize skills to ensure all categories exist
+            extractedSkills = normalizeSkills(extractedSkills);
+
+            const readinessScore = calculateReadiness(company, role, jdText, extractedSkills);
+
+            // Generate Company Intel
+            const companySize = detectCompanySize(company);
+            const industry = detectIndustry(company, jdText);
+            const hiringFocus = generateHiringFocus(companySize, extractedSkills);
+
+            // Generate Round Mapping
+            const roundMapping = generateRoundMapping(companySize, extractedSkills);
+
+            const now = new Date().toISOString();
+            const analysis = {
+                id: Date.now(),
+                createdAt: now,
+                updatedAt: now,
+                company: company || "",
+                role: role || "",
+                jdText,
+                extractedSkills,
+                baseScore: readinessScore,
+                companyIntel: {
+                    size: companySize,
+                    industry: industry,
+                    hiringFocus: hiringFocus
+                },
+                roundMapping: roundMapping,
+                checklist: generateChecklist(extractedSkills),
+                plan7Days: generate7DayPlan(extractedSkills),
+                questions: generateQuestions(extractedSkills),
+                skillConfidenceMap: {},
+                finalScore: readinessScore
+            };
+
+            // Initialize skill confidence map (all default to 'practice')
+            Object.values(analysis.extractedSkills).flat().forEach(skill => {
+                analysis.skillConfidenceMap[skill] = 'practice';
+            });
+
+            saveAnalysis(analysis);
+            displayResults(analysis);
+            showPage('results');
+        }
+
+        // ===== STORAGE =====
+        function saveAnalysis(analysis) {
+            const history = JSON.parse(localStorage.getItem('jdHistory') || '[]');
+            history.unshift(analysis);
+            localStorage.setItem('jdHistory', JSON.stringify(history));
+            localStorage.setItem('latestAnalysis', JSON.stringify(analysis));
+        }
+
+        function loadHistory() {
+            try {
+                const rawHistory = localStorage.getItem('jdHistory');
+                const history = JSON.parse(rawHistory || '[]');
+
+                const validEntries = [];
+                let corruptedCount = 0;
+
+                // Validate and normalize each entry
+                for (const entry of history) {
+                    try {
+                        // Validate entry has minimum required fields
+                        if (!entry.jdText || entry.jdText.length < 10) {
+                            throw new Error('Invalid JD text');
+                        }
+
+                        // Normalize the entry to ensure schema consistency
+                        const normalized = validateAndNormalizeEntry(entry);
+                        validEntries.push(normalized);
+                    } catch (err) {
+                        console.warn('Skipping corrupted entry:', err);
+                        corruptedCount++;
+                    }
+                }
+
+                // Save cleaned history back if we found corrupted entries
+                if (corruptedCount > 0) {
+                    localStorage.setItem('jdHistory', JSON.stringify(validEntries));
+                    showToast('One saved entry couldn\'t be loaded. Create a new analysis.');
+                }
+
+                const historyList = document.getElementById('history-list');
+
+                if (validEntries.length === 0) {
+                    historyList.innerHTML = '<p style="text-align: center; padding: 40px 0; color: var(--gray-600);">No history yet. Analyze a JD to get started!</p>';
+                    return;
+                }
+
+                historyList.innerHTML = validEntries.map(item => `
+                    <div class="problem-item" onclick="viewHistoryItem(${item.id})" style="cursor: pointer;">
+                        <h3>${item.company || 'Unknown Company'} - ${item.role || 'Unknown Role'}</h3>
+                        <p>Score: ${item.finalScore}/100 | ${new Date(item.createdAt).toLocaleDateString()}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Failed to load history:', err);
+                const historyList = document.getElementById('history-list');
+                historyList.innerHTML = '<p style="text-align: center; padding: 40px 0; color: var(--error);">Failed to load history. Please try again.</p>';
+            }
+        }
+
+        function viewHistoryItem(id) {
+            const history = JSON.parse(localStorage.getItem('jdHistory') || '[]');
+            const item = history.find(h => h.id === id);
+            if (item) {
+                displayResults(item);
+                showPage('results');
+            }
+        }
+
+        // ===== DISPLAY RESULTS =====
+        let currentAnalysis = null; // Track current analysis for updates
+
+        function displayResults(analysis) {
+            currentAnalysis = analysis;
+
+            // Initialize skillConfidenceMap if not exists
+            if (!analysis.skillConfidenceMap) {
+                analysis.skillConfidenceMap = {};
+                // Default all skills to "practice"
+                Object.values(analysis.extractedSkills).flat().forEach(skill => {
+                    analysis.skillConfidenceMap[skill] = 'practice';
+                });
+            }
+
+            // Calculate adjusted score
+            updateAdjustedScore(analysis);
+
+            const displayScore = analysis.finalScore || analysis.baseScore;
+            const circumference = 2 * Math.PI * 90;
+            const offset = circumference - (displayScore / 100) * circumference;
+
+            const skillsHTML = Object.entries(analysis.extractedSkills).map(([category, skills]) => `
+                <div style="margin-bottom: 16px;">
+                    <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--gray-700);">${category}</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${skills.map(skill => {
+                const confidence = analysis.skillConfidenceMap[skill] || 'practice';
+                const icon = confidence === 'know' ? '✓' : '⚡';
+                return `<span class="skill-tag ${confidence}" onclick="toggleSkillConfidence('${skill}')" title="Click to toggle">
+                                <span class="skill-icon">${icon}</span>${skill}
+                            </span>`;
+            }).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            const checklistHTML = analysis.checklist.map(item => `
+                <div style="margin-bottom: 24px;">
+                    <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--gray-900);">${item.roundTitle}</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        ${item.items.map(bullet => `<li style="padding: 8px 0; padding-left: 24px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--primary);">✓</span>
+                            ${bullet}
+                        </li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            const planHTML = analysis.plan7Days.map(item => `
+                <div style="margin-bottom: 20px;">
+                    <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 10px; color: var(--primary);">${item.day}${item.focus ? ': ' + item.focus : ''}</h4>
+                    <ul style="list-style: disc; padding-left: 24px; color: var(--gray-700);">
+                        ${item.tasks.map(task => `<li style="margin-bottom: 6px;">${task}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            const questionsHTML = analysis.questions.map((q, i) => `
+                <div style="padding: 12px; background-color: var(--gray-50); border-radius: 6px; margin-bottom: 10px;">
+                    <strong style="color: var(--primary);">${i + 1}.</strong> ${q}
+                </div>
+            `).join('');
+
+            // Get weak skills for Action Next
+            const weakSkills = Object.entries(analysis.skillConfidenceMap)
+                .filter(([skill, confidence]) => confidence === 'practice')
+                .map(([skill]) => skill)
+                .slice(0, 3);
+
+            const actionNextHTML = weakSkills.length > 0 ? `
+                <div class="action-next">
+                    <h3>🎯 Action Next</h3>
+                    <h4>Focus Areas:</h4>
+                    <ul>
+                        ${weakSkills.map(skill => `<li>${skill} (Need practice)</li>`).join('')}
+                    </ul>
+                    <div class="suggestion">
+                        <strong>Suggested Action:</strong> Start Day 1 plan now - Review fundamental CS concepts and practice basic coding problems.
+                    </div>
+                </div>
+            ` : '';
+
+            document.getElementById('results-content').innerHTML = `
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Readiness Score</h3>
+                        <div class="readiness-container">
+                            <div class="circular-progress">
+                                <svg width="200" height="200">
+                                    <circle class="progress-circle-bg" cx="100" cy="100" r="90"></circle>
+                                    <circle class="progress-circle" cx="100" cy="100" r="90"
+                                        stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"></circle>
+                                </svg>
+                                <div class="progress-text">
+                                    <div class="progress-number">${displayScore}</div>
+                                    <div class="progress-label">Readiness Score</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <p style="margin: 4px 0;"><strong>Company:</strong> ${analysis.company}</p>
+                            <p style="margin: 4px 0;"><strong>Role:</strong> ${analysis.role}</p>
+                            <p style="margin: 4px 0; font-size: 12px; color: var(--gray-600);">Base: ${analysis.baseScore} | Adjusted: ${displayScore}</p>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Extracted Skills</h3>
+                        <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 16px;">Click skills to toggle: <span style="color: #10b981;">✓ I know this</span> / <span style="color: #f59e0b;">⚡ Need practice</span></p>
+                        ${skillsHTML}
+                    </div>
+                </div>
+
+                ${analysis.companyIntel ? `
+                <div class="company-intel">
+                    <h3>🏢 Company Intel</h3>
+                    <div class="intel-row">
+                        <span class="intel-label">Company:</span>
+                        <span class="intel-value">${analysis.company}</span>
+                    </div>
+                    <div class="intel-row">
+                        <span class="intel-label">Industry:</span>
+                        <span class="intel-value">${analysis.companyIntel.industry}</span>
+                    </div>
+                    <div class="intel-row">
+                        <span class="intel-label">Size:</span>
+                        <span class="intel-value">${analysis.companyIntel.size}</span>
+                    </div>
+                    <div class="hiring-focus">
+                        <h4>Typical Hiring Focus:</h4>
+                        <ul>
+                            ${analysis.companyIntel.hiringFocus.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="demo-note">
+                        ℹ️ Demo Mode: Company intel generated heuristically
+                    </div>
+                </div>
+                ` : ''}
+
+                ${analysis.roundMapping ? `
+                <div class="round-mapping">
+                    <h3>📍 Interview Round Mapping</h3>
+                    <div class="round-timeline">
+                        ${analysis.roundMapping.map(round => `
+                            <div class="round-item">
+                                <div class="round-name">${round.name}</div>
+                                <div class="round-focus">Focus: ${round.focus}</div>
+                                <div class="round-why">Why this matters: ${round.why}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="dashboard-card">
+                    <h3>Round-wise Preparation Checklist</h3>
+                    ${checklistHTML}
+                    <div class="export-buttons">
+                        <button class="btn btn-secondary" onclick="copyChecklist()">📋 Copy Checklist</button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>7-Day Preparation Plan</h3>
+                        ${planHTML}
+                        <div class="export-buttons">
+                            <button class="btn btn-secondary" onclick="copyPlan()">📅 Copy Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>Likely Interview Questions</h3>
+                        ${questionsHTML}
+                        <div class="export-buttons">
+                            <button class="btn btn-secondary" onclick="copyQuestions()">❓ Copy Questions</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 24px;">
+                    <button class="btn btn-primary" onclick="showPage('jd-analyzer')">Analyze Another JD</button>
+                    <button class="btn btn-secondary" onclick="downloadTXT()" style="margin-left: 12px;">💾 Download as TXT</button>
+                </div>
+
+                ${actionNextHTML}
+            `;
+        }
+
+        // ===== INTERACTIVE FEATURES =====
+        function toggleSkillConfidence(skill) {
+            if (!currentAnalysis) return;
+
+            const current = currentAnalysis.skillConfidenceMap[skill] || 'practice';
+            currentAnalysis.skillConfidenceMap[skill] = current === 'practice' ? 'know' : 'practice';
+            currentAnalysis.updatedAt = new Date().toISOString();
+
+            updateAdjustedScore(currentAnalysis);
+            saveAnalysisChanges(currentAnalysis);
+            displayResults(currentAnalysis);
+        }
+
+        function updateAdjustedScore(analysis) {
+            let adjusted = analysis.baseScore;
+
+            for (const [skill, confidence] of Object.entries(analysis.skillConfidenceMap || {})) {
+                if (confidence === 'know') adjusted += 2;
+                else if (confidence === 'practice') adjusted -= 2;
+            }
+
+            analysis.finalScore = Math.max(0, Math.min(100, adjusted));
+        }
+
+        function saveAnalysisChanges(analysis) {
+            // Update in history
+            const history = JSON.parse(localStorage.getItem('jdHistory') || '[]');
+            const index = history.findIndex(h => h.id === analysis.id);
+            if (index !== -1) {
+                history[index] = analysis;
+                localStorage.setItem('jdHistory', JSON.stringify(history));
+            }
+
+            // Update latest
+            localStorage.setItem('latestAnalysis', JSON.stringify(analysis));
+        }
+
+        // ===== EXPORT FUNCTIONS =====
+        function copyPlan() {
+            if (!currentAnalysis) return;
+
+            let text = '7-DAY PREPARATION PLAN\n\n';
+            for (const item of currentAnalysis.plan7Days) {
+                text += `${item.day}${item.focus ? ': ' + item.focus : ''}\n`;
+                item.tasks.forEach(task => text += `  - ${task}\n`);
+                text += '\n';
+            }
+
+            copyToClipboard(text);
+        }
+
+        function copyChecklist() {
+            if (!currentAnalysis) return;
+
+            let text = 'ROUND-WISE PREPARATION CHECKLIST\n\n';
+            for (const item of currentAnalysis.checklist) {
+                text += `${item.roundTitle}\n`;
+                item.items.forEach(bullet => text += `  ✓ ${bullet}\n`);
+                text += '\n';
+            }
+
+            copyToClipboard(text);
+        }
+
+        function copyQuestions() {
+            if (!currentAnalysis) return;
+
+            let text = 'LIKELY INTERVIEW QUESTIONS\n\n';
+            currentAnalysis.questions.forEach((q, i) => {
+                text += `${i + 1}. ${q}\n`;
+            });
+
+            copyToClipboard(text);
+        }
+
+        function downloadTXT() {
+            if (!currentAnalysis) return;
+
+            let content = `PLACEMENT PREPARATION REPORT\n`;
+            content += `Company: ${currentAnalysis.company}\n`;
+            content += `Role: ${currentAnalysis.role}\n`;
+            content += `Readiness Score: ${currentAnalysis.finalScore || currentAnalysis.baseScore}/100\n`;
+            content += `Generated: ${new Date(currentAnalysis.createdAt).toLocaleString()}\n\n`;
+            content += `${'='.repeat(60)}\n\n`;
+
+            content += `EXTRACTED SKILLS\n\n`;
+            for (const [category, skills] of Object.entries(currentAnalysis.extractedSkills)) {
+                content += `${category}:\n`;
+                skills.forEach(skill => {
+                    const confidence = currentAnalysis.skillConfidenceMap[skill] || 'practice';
+                    const icon = confidence === 'know' ? '✓' : '⚡';
+                    content += `  ${icon} ${skill}\n`;
+                });
+                content += '\n';
+            }
+
+            content += `${'='.repeat(60)}\n\n`;
+            content += `ROUND-WISE PREPARATION CHECKLIST\n\n`;
+            for (const item of currentAnalysis.checklist) {
+                content += `${item.roundTitle}\n`;
+                item.items.forEach(bullet => content += `  ✓ ${bullet}\n`);
+                content += '\n';
+            }
+
+            content += `${'='.repeat(60)}\n\n`;
+            content += `7-DAY PREPARATION PLAN\n\n`;
+            for (const item of currentAnalysis.plan7Days) {
+                content += `${item.day}${item.focus ? ': ' + item.focus : ''}\n`;
+                item.tasks.forEach(task => content += `  - ${task}\n`);
+                content += '\n';
+            }
+
+            content += `${'='.repeat(60)}\n\n`;
+            content += `LIKELY INTERVIEW QUESTIONS\n\n`;
+            currentAnalysis.questions.forEach((q, i) => {
+                content += `${i + 1}. ${q}\n`;
+            });
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const filename = `placement-prep-${currentAnalysis.company.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.txt`;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showToast('Downloaded as TXT file!');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Load latest results on page load if available
+        window.addEventListener('DOMContentLoaded', () => {
+            const latest = JSON.parse(localStorage.getItem('latestAnalysis') || 'null');
+            if (latest) {
+                displayResults(latest);
+            }
+        });
+    </script>
+    <script src="../../shared/nav.js"></script>
+</body>
+
+</html>

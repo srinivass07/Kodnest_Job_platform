@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KodNest Premium Build System</title>
+    <meta name="description" content="A calm, intentional design system for serious B2C products">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="app-nav">
+        <div class="app-nav__brand">Job Notification Tracker</div>
+
+        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-menu">
+            <li><a href="#/dashboard" class="nav-link">Dashboard</a></li>
+            <li><a href="#/saved" class="nav-link">Saved</a></li>
+            <li><a href="#/digest" class="nav-link">Digest</a></li>
+            <li><a href="#/settings" class="nav-link">Settings</a></li>
+            <li><a href="#/proof" class="nav-link">Proof</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="app-content">
+        <!-- Content will be dynamically rendered here by JavaScript -->
+    </main>
+
+    <script src="../../shared/nav.js"></script>
+    <script src="jobs.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
