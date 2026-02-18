@@ -57,10 +57,8 @@ placement-readiness-platform/
 - ✅ Smooth transitions and interactions
 
 ## Author
-
-**Kaushik Yarra**
-- GitHub: [@kaushikyarra](https://github.com/kaushikyarra)
-- Email: kaushikyarra@gmail.com
+**Srinivas S**
+-
 
 ## License
 
