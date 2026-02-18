@@ -1,6 +1,6 @@
 # KodNest Premium Build System
 
-Live Demo: [View Demo](https://yourusername.github.io/kodnest-premium-build-system/)
+Live Demo: [View Demo]([https://yourusername.github.io/kodnest-premium-build-system/](https://srinivas-job-platform.vercel.app/))
 
 ## Overview
 
