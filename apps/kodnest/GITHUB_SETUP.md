@@ -25,7 +25,7 @@ cd C:\Antigravity\1
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 # Add GitHub as remote
-git remote add origin https://github.com/srinivass07/kodnest-premium-build-system.git
+git remote add origin https://github.com/srinivass07/kodnest_Job_Platform.git
 
 # Push to GitHub
 git push -u origin main
