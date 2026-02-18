@@ -58,6 +58,7 @@ placement-readiness-platform/
 
 ## Author
 **Srinivas S**
+
 ## License
 
 © 2026 Placement Readiness Platform. All rights reserved.
