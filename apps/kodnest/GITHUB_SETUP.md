@@ -35,10 +35,10 @@ git push -u origin main
 
 To get a live demo URL:
 
-1. Go to: **https://github.com/kaushikyarra/kodnest-premium-build-system/settings/pages**
+1. Go to: **https://github.com/srinivass07/Kodnest_Job_platform**
 2. Under "Source", select **main** branch
 3. Click **Save**
-4. Your site will be live at: **https://kaushikyarra.github.io/kodnest-premium-build-system/**
+4. Your site will be live at:(https://github.com/srinivass07/Kodnest_Job_platform)
 
 ---
 
