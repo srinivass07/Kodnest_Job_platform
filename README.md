@@ -26,7 +26,7 @@ assets/ → static resources
 
 ## Live Demo
 
-https://your-vercel-link.vercel.app
+https://srinivas-job-platform.vercel.app/
 
 ## Author
 
